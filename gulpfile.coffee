@@ -31,8 +31,7 @@ FromStream::pipelog = (obj, log=gutil.log) -> @pipe(obj).on('error', log)
 coffee = require 'gulp-coffee'
 
 task 'coffee', (cb) ->
-  from(['index.coffee'], {cache:'coffee'}).pipelog(coffee({bare: true})).pipe(dest('./'))
-  from(['test-util.coffee'], {cache:'coffee'}).pipelog(coffee({bare: true})).pipe(dest('./'))
+  from(['index.coffee', 'test-util.coffee'], {cache:'coffee'}).pipelog(coffee({bare: true})).pipe(dest('./'))
 
 onErrorContinue = (err) -> console.log(err.stack); @emit 'end'
 task 'mocha', ->  src('test-*.js').pipe(mocha({reporter: 'spec'})).on("error", onErrorContinue)
