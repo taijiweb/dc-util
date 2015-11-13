@@ -241,7 +241,7 @@ exports.binaryInsert = function(item, items) {
 
 exports.numbers = function(n) {
   var flow, i, result;
-  flow = require('./flow');
+  flow = require('lazy-flow');
   if (typeof n === 'function') {
     return flow(n, function() {
       var i, length, result;
