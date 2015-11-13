@@ -116,7 +116,7 @@ exports.binaryInsert = (item, items) ->
 # [0...n)
 # or [0...n()), if n is function
 exports.numbers = (n) ->
-  flow = require './flow'
+  flow = require 'lazy-flow'
   if typeof n == 'function'
     flow n, ->
       i = 0
