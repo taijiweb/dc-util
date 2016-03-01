@@ -1,4 +1,5 @@
-exports.isArray = (item) -> Object.prototype.toString.call(item) == '[object Array]'
+exports.isArray = isArray = (item) ->
+  Object.prototype.toString.call(item) == '[object Array]'
 
 exports.cloneObject = (obj) ->
   result = {}
@@ -7,9 +8,13 @@ exports.cloneObject = (obj) ->
   result
 
 exports.pairListDict = (keyValuePairs...) ->
-  if keyValuePairs.length==1 then keyValuePairs = keyValuePairs[0]
+  if keyValuePairs.length==1
+    keyValuePairs = keyValuePairs[0]
+
   len = keyValuePairs.length; i = 0; result = {}
-  while i<len then result[keyValuePairs[i]] = keyValuePairs[i+1]; i += 2
+  while i<len
+    result[keyValuePairs[i]] = keyValuePairs[i+1]
+    i += 2
   result
 
 dupStr = (str, n) ->
@@ -71,8 +76,8 @@ exports.intersect = (maps) ->
     isMember and result[key] = m[key]
   result
 
-exports.substractSet = (whole, part) ->
-  for key of part then delete whole[key]
+exports.substractSet = (whole, unit) ->
+  for key of unit then delete whole[key]
   whole
 
 exports.binarySearch = (item, items) ->
@@ -116,7 +121,7 @@ exports.binaryInsert = (item, items) ->
 # [0...n)
 # or [0...n()), if n is function
 exports.numbers = (n) ->
-  flow = require 'lazy-flow'
+  flow = require('lazy-flow')
   if typeof n == 'function'
     flow n, ->
       i = 0
@@ -133,3 +138,30 @@ exports.numbers = (n) ->
       result.push i
       i++
     result
+
+
+exports.foreach = (items, callback) ->
+  if !items
+    return
+
+  if isArray(items)
+    result = []
+    for item, i in items
+      result.push(callback(item, i))
+  else
+    result = {}
+    for key, item of items
+      result[key] = callback(item, key)
+
+  result
+
+hasOwn = Object.hasOwnProperty
+
+exports.mixin = (proto, mix) ->
+  for key, value of mix
+    if hasOwn.call(proto, key)
+      continue
+    else
+      proto[key] = value
+
+  proto

@@ -1,7 +1,7 @@
-var dupStr, globalDcid,
+var dupStr, globalDcid, hasOwn, isArray,
   __slice = [].slice;
 
-exports.isArray = function(item) {
+exports.isArray = isArray = function(item) {
   return Object.prototype.toString.call(item) === '[object Array]';
 };
 
@@ -144,9 +144,9 @@ exports.intersect = function(maps) {
   return result;
 };
 
-exports.substractSet = function(whole, part) {
+exports.substractSet = function(whole, unit) {
   var key;
-  for (key in part) {
+  for (key in unit) {
     delete whole[key];
   }
   return whole;
@@ -263,4 +263,40 @@ exports.numbers = function(n) {
     }
     return result;
   }
+};
+
+exports.foreach = function(items, callback) {
+  var i, item, key, result, _i, _len;
+  if (!items) {
+    return;
+  }
+  if (isArray(items)) {
+    result = [];
+    for (i = _i = 0, _len = items.length; _i < _len; i = ++_i) {
+      item = items[i];
+      result.push(callback(item, i));
+    }
+  } else {
+    result = {};
+    for (key in items) {
+      item = items[key];
+      result[key] = callback(item, key);
+    }
+  }
+  return result;
+};
+
+hasOwn = Object.hasOwnProperty;
+
+exports.mixin = function(proto, mix) {
+  var key, value;
+  for (key in mix) {
+    value = mix[key];
+    if (hasOwn.call(proto, key)) {
+      continue;
+    } else {
+      proto[key] = value;
+    }
+  }
+  return proto;
 };

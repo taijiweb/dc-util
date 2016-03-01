@@ -1,6 +1,6 @@
-var binaryInsert, binarySearch, expect, idescribe, iit, ndescribe, nit, _ref, _ref1;
+var binaryInsert, binarySearch, ddescribe, expect, idescribe, iit, ndescribe, nit, _ref, _ref1;
 
-_ref = require('bdd-test-helper'), expect = _ref.expect, iit = _ref.iit, idescribe = _ref.idescribe, nit = _ref.nit, ndescribe = _ref.ndescribe;
+_ref = require('bdd-test-helper'), expect = _ref.expect, iit = _ref.iit, idescribe = _ref.idescribe, nit = _ref.nit, ndescribe = _ref.ndescribe, ddescribe = _ref.ddescribe;
 
 _ref1 = require('./index'), binarySearch = _ref1.binarySearch, binaryInsert = _ref1.binaryInsert;
 
