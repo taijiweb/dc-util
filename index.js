@@ -5,6 +5,10 @@ exports.isArray = isArray = function(item) {
   return Object.prototype.toString.call(item) === '[object Array]';
 };
 
+exports.isObject = function(item) {
+  return typeof item === 'object' && item !== null;
+};
+
 exports.cloneObject = function(obj) {
   var key, result;
   result = {};
@@ -152,119 +156,6 @@ exports.substractSet = function(whole, unit) {
   return whole;
 };
 
-exports.binarySearch = function(item, items) {
-  var end, index, length, start;
-  length = items.length;
-  if (!length) {
-    return 0;
-  }
-  if (length === 1) {
-    if (items[0] >= item) {
-      return 0;
-    } else {
-      return 1;
-    }
-  }
-  start = 0;
-  end = length - 1;
-  while (1) {
-    index = start + Math.floor((end - start) / 2);
-    if (start === end) {
-      if (items[index] >= item) {
-        return index;
-      } else {
-        return index + 1;
-      }
-    } else if (item === items[index]) {
-      return index;
-    }
-    if (item === items[index + 1]) {
-      return index + 1;
-    } else if (item < items[index]) {
-      end = index;
-    } else if (item > items[index + 1]) {
-      start = index + 1;
-    } else {
-      return index + 1;
-    }
-  }
-};
-
-exports.binaryInsert = function(item, items) {
-  var end, index, length, start;
-  length = items.length;
-  if (!length) {
-    items[0] = item;
-    return 0;
-  }
-  if (length === 1) {
-    if (items[0] === item) {
-      return 0;
-    } else if (items[0] > item) {
-      items[1] = items[0];
-      items[0] = item;
-      return 0;
-    } else {
-      items[1] = item;
-      return 1;
-    }
-  }
-  start = 0;
-  end = length - 1;
-  while (1) {
-    index = start + Math.floor((end - start) / 2);
-    if (start === end) {
-      if (items[index] === item) {
-        return index;
-      } else if (items[index] > item) {
-        items.splice(index, 0, item);
-        return index;
-      } else {
-        items.splice(index + 1, 0, item);
-        return index + 1;
-      }
-    } else if (item === items[index]) {
-      return index;
-    }
-    if (item === items[index + 1]) {
-      return index + 1;
-    } else if (item < items[index]) {
-      end = index;
-    } else if (item > items[index + 1]) {
-      start = index + 1;
-    } else {
-      items.splice(index + 1, 0, item);
-      return index + 1;
-    }
-  }
-};
-
-exports.numbers = function(n) {
-  var flow, i, result;
-  flow = require('lazy-flow');
-  if (typeof n === 'function') {
-    return flow(n, function() {
-      var i, length, result;
-      i = 0;
-      result = [];
-      length = n();
-      while (i < length) {
-        result.push(i);
-        i++;
-      }
-      return result;
-    });
-  } else {
-    i = 0;
-    result = [];
-    while (i < n) {
-      result.push(i);
-      i++;
-    }
-    return result;
-  }
-};
-
 exports.foreach = function(items, callback) {
   var i, item, key, result, _i, _len;
   if (!items) {
@@ -299,4 +190,25 @@ exports.mixin = function(proto, mix) {
     }
   }
   return proto;
+};
+
+exports.makeReactMap = function(description) {
+  var field, item, items, pair, reactField, result, _i, _j, _len, _len1, _ref;
+  result = {};
+  items = description.split(/\s*,\s*/);
+  for (_i = 0, _len = items.length; _i < _len; _i++) {
+    item = items[_i];
+    pair = item.trim().split(/\s*:\s*/);
+    if (pair.length === 1) {
+      result[pair[0]] = '';
+    } else {
+      reactField = pair[1];
+      _ref = pair[0].split(/\s+/);
+      for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+        field = _ref[_j];
+        result[field] = reactField;
+      }
+    }
+  }
+  return result;
 };

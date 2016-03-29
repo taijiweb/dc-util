@@ -1,6 +1,9 @@
 exports.isArray = isArray = (item) ->
   Object.prototype.toString.call(item) == '[object Array]'
 
+exports.isObject = (item) ->
+  typeof item == 'object' && `item !== null`
+
 exports.cloneObject = (obj) ->
   result = {}
   for key of obj
@@ -80,66 +83,6 @@ exports.substractSet = (whole, unit) ->
   for key of unit then delete whole[key]
   whole
 
-exports.binarySearch = (item, items) ->
-  length = items.length
-  if !length then return 0
-  if length==1
-    if items[0]>=item then return 0
-    else return 1
-  start = 0; end = length-1
-  while 1
-    index = start+Math.floor((end-start)/2)
-    if start==end
-      if items[index]>=item then return index
-      else return index+1
-    else if item==items[index] then return index
-    if item==items[index+1] then return index+1
-    else if item<items[index] then end = index
-    else if item>items[index+1] then start = index+1
-    else return index+1
-
-exports.binaryInsert = (item, items) ->
-  length = items.length
-  if !length then items[0] = item; return 0
-  if length==1
-    if items[0]==item then return 0
-    else if items[0]>item then items[1] = items[0]; items[0] = item; return 0
-    else items[1] = item; return 1
-  start = 0; end = length-1
-  while 1
-    index = start+Math.floor((end-start)/2)
-    if start==end
-      if items[index]==item then return index
-      else if items[index]>item then items.splice(index, 0, item); return index
-      else items.splice(index+1, 0, item); return index+1
-    else if item==items[index] then return index
-    if item==items[index+1] then return index+1
-    else if item<items[index] then end = index
-    else if item>items[index+1] then start = index+1
-    else items.splice(index+1, 0, item); return index+1
-
-# [0...n)
-# or [0...n()), if n is function
-exports.numbers = (n) ->
-  flow = require('lazy-flow')
-  if typeof n == 'function'
-    flow n, ->
-      i = 0
-      result = []
-      length = n()
-      while i<length
-        result.push i
-        i++
-      result
-  else
-    i = 0
-    result = []
-    while i<n
-      result.push i
-      i++
-    result
-
-
 exports.foreach = (items, callback) ->
   if !items
     return
@@ -165,3 +108,17 @@ exports.mixin = (proto, mix) ->
       proto[key] = value
 
   proto
+
+exports.makeReactMap = (description) ->
+  result = {}
+  items = description.split(/\s*,\s*/)
+  for item in items
+    pair = item.trim().split(/\s*:\s*/)
+    if pair.length == 1
+      result[pair[0]] = ''
+    else
+      reactField = pair[1]
+      for field in pair[0].split(/\s+/)
+        result[field] = reactField
+  result
+
