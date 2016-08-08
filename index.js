@@ -156,6 +156,93 @@ exports.substractSet = function(whole, unit) {
   return whole;
 };
 
+exports.binarySearch = function(item, items) {
+  var end, index, length, start;
+  length = items.length;
+  if (!length) {
+    return 0;
+  }
+  if (length === 1) {
+    if (items[0] >= item) {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
+  start = 0;
+  end = length - 1;
+  while (1) {
+    index = start + Math.floor((end - start) / 2);
+    if (start === end) {
+      if (items[index] >= item) {
+        return index;
+      } else {
+        return index + 1;
+      }
+    } else if (item === items[index]) {
+      return index;
+    }
+    if (item === items[index + 1]) {
+      return index + 1;
+    } else if (item < items[index]) {
+      end = index;
+    } else if (item > items[index + 1]) {
+      start = index + 1;
+    } else {
+      return index + 1;
+    }
+  }
+};
+
+exports.binaryInsert = function(item, items) {
+  var end, index, length, start;
+  length = items.length;
+  if (!length) {
+    items[0] = item;
+    return 0;
+  }
+  if (length === 1) {
+    if (items[0] === item) {
+      return 0;
+    } else if (items[0] > item) {
+      items[1] = items[0];
+      items[0] = item;
+      return 0;
+    } else {
+      items[1] = item;
+      return 1;
+    }
+  }
+  start = 0;
+  end = length - 1;
+  while (1) {
+    index = start + Math.floor((end - start) / 2);
+    if (start === end) {
+      if (items[index] === item) {
+        return index;
+      } else if (items[index] > item) {
+        items.splice(index, 0, item);
+        return index;
+      } else {
+        items.splice(index + 1, 0, item);
+        return index + 1;
+      }
+    } else if (item === items[index]) {
+      return index;
+    }
+    if (item === items[index + 1]) {
+      return index + 1;
+    } else if (item < items[index]) {
+      end = index;
+    } else if (item > items[index + 1]) {
+      start = index + 1;
+    } else {
+      items.splice(index + 1, 0, item);
+      return index + 1;
+    }
+  }
+};
+
 exports.foreach = function(items, callback) {
   var i, item, key, result, _i, _len;
   if (!items) {
