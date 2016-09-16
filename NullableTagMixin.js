@@ -1,8 +1,8 @@
-var BaseComponent, BaseComponentExecuteAttachParent, BaseComponentRemoveNode, BaseComponentRenderBaseComponent, ListMixin, Nothing, NullableTagMixin, Tag, TransformComponentMixin, exports;
+var BaseComponent, BaseComponentAttachParent, BaseComponentRemoveNode, BaseComponentRenderBaseComponent, ListMixin, Nothing, NullableTagMixin, Tag, TransformComponentMixin, exports;
 
 TransformComponentMixin = dc.TransformComponentMixin, Tag = dc.Tag, Nothing = dc.Nothing, BaseComponent = dc.BaseComponent, ListMixin = dc.ListMixin;
 
-BaseComponentExecuteAttachParent = BaseComponent.prototype.executeAttachParent;
+BaseComponentAttachParent = BaseComponent.prototype.attachParent;
 
 BaseComponentRemoveNode = BaseComponent.prototype.removeNode;
 
@@ -37,9 +37,9 @@ module.exports = exports = NullableTagMixin = {
       }
     }
   },
-  executeAttachParent: function() {
+  attachParent: function() {
     if (!this.isHidden()) {
-      return BaseComponentExecuteAttachParent.call(this);
+      return BaseComponentAttachParent.call(this);
     }
   },
   removeNode: function() {

@@ -32,7 +32,7 @@ exports.getCommonRoot = getCommonRoot = function(start, stop, root) {
   }
 };
 
-exports.getComponentsBetweenPair = function(start, stop, root) {
+exports.getComponentsBetween = function(start, stop, root) {
   var holder, index, leftMissing, result, rightMissing, startBranch, startEndIndex, startIndex, stopBranch, stopIndex, top, _ref;
   if (start === stop) {
     return [start];

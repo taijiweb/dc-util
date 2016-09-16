@@ -1,6 +1,6 @@
 {TransformComponentMixin, Tag, Nothing, BaseComponent, ListMixin} = dc
 
-BaseComponentExecuteAttachParent =  BaseComponent.prototype.executeAttachParent
+BaseComponentAttachParent =  BaseComponent.prototype.attachParent
 BaseComponentRemoveNode =  BaseComponent.prototype.removeNode
 BaseComponentRenderBaseComponent = BaseComponent.prototype.renderBaseComponent
 
@@ -32,9 +32,9 @@ module.exports = exports =  NullableTagMixin =
         this.holder.propagateChildNextNode(this, this.nextNode)
     return
 
-  executeAttachParent: ->
+  attachParent: ->
     if !this.isHidden()
-      BaseComponentExecuteAttachParent.call(this)
+      BaseComponentAttachParent.call(this)
 
   removeNode: ->
     if this.node == this.tagNode

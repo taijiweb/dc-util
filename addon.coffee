@@ -28,7 +28,7 @@ exports.getCommonRoot = getCommonRoot = (start, stop, root) ->
 
 # assume that no TransformComponent is met
 # Edit component in tiiji-editor is an example
-exports.getComponentsBetweenPair = (start, stop, root) ->
+exports.getComponentsBetween = (start, stop, root) ->
   if start == stop
     [start]
   else
